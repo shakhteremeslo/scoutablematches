@@ -2,9 +2,6 @@ import requests, json, sys
 
 key = sys.argv[1]
 headers = {"X-TBA-Auth-Key":key}
-#url = "https://www.thebluealliance.com/api/v3/team/frc" + input("Which team do you want to choose? ")
-
-#content = json.loads(requests.get(url, headers=headers).text)
 
 team_events = {"frc1257":"2017mrcmp"}
 
@@ -16,7 +13,6 @@ def isPlayoffs(teamKey, eventKey):
             playoffs = True
     return playoffs
 
-print(isPlayoffs("frc1257","2017mrcmp"))
 #def isVideo(
 #
 #for key in team_events:
