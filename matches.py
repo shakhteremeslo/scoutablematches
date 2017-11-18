@@ -23,35 +23,31 @@ def matchLister(teamKey, eventKey):
     for key in matchLookup:
         if isVideo(key):
             matches.append(key)
-    #types is the set of the types of matches with video
-    types = []
     #matchdict holds the sorted lists of matches with video by type
-    matchdict = {"qm":[],"qf":[],"sf":[],"f":[]}
+    matchdict = {}
     #max_type holds the highest type of match reached in the event
     max_type = ""
-    #loop makes types list and adds match keys to the proper values in matchdict
+    #loop adds match keys to the proper values in matchdict
     for match in matches:
         type = ""
-        for i in match.split("_")[1]:
+        for i in match.split("_")[1]: #splits match key by underscore and grabs match type and number
             if i.isdigit():
                 break
             else:
                 type += i
-        types.append(type)
-        matchdict[type].append(match)
-    #loop determines max_type
-    for m in types:
-        if m == "f":
-            max_type = "f"
-            break
-        elif m == "sf":
-            max_type = "sf"
-            break
-        elif m == "qf":
-            max_type = "qf"
-            break
+        if type in matchdict:
+            matchdict[type].append(match)
         else:
-            max_type = "qm"
+            matchdict[type] = [match]
+    #determines max_type
+    if "f" in matchdict:
+        max_type = "f"
+    elif "sf" in matchdict:
+        max_type = "sf"
+    elif "qf" in matchdict:
+        max_type = "qf"
+    else:
+        max_type = "qm"
     return matchdict, max_type
 
 #determines which matches to prescout
@@ -90,7 +86,8 @@ def toScout(dicttypeset):
         try:
             scoutlist.append(matchdict["qm"][-1])
         except:
-            scoutlist.append("No more matches found.")       
-    return scoutlist         
+            scoutlist.append("No more matches found.")
+    return scoutlist
 
 print(toScout(matchLister("frc1257","2017pahat")))
+# print(toScout(matchLister("frc1257","2017mrcmp")))
